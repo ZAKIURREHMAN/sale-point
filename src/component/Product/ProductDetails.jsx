@@ -39,6 +39,7 @@ function ProductDetails() {
         theme: "dark",
       });
     }
+    setQuantityNumber(0)
   };
 
   return (

@@ -18,10 +18,10 @@ function App() {
           <Search />
           <Routes>
             <Route path="/" element={<DisplayCart />} />
-            <Route path="/details/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/upload" element={<UploadPic />} />
             <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/details/:id" element={<ProductDetails />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
