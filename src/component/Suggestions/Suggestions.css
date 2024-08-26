@@ -1,0 +1,30 @@
+.suggestions-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    margin-left: -13px;
+}
+.suggestion-box{
+    width: 435px;
+    height: 200px;    
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.708);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    display: none;
+}
+.showing{
+    width: 435px;
+    height: 200px;    
+    overflow: auto;
+    background-color: rgba(255, 255, 255, 0.708);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.single-item{
+    border: 1px solid black;
+    cursor: pointer;
+}
