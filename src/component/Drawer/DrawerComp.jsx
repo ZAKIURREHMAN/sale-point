@@ -8,7 +8,6 @@ import Drawer from "@mui/material/Drawer";
 import NavbarText from "../../constant/NavbarText";
 
 function DrawerComp({ openDower, setOpenDower }) {
-  console.log("See the value of Drawer", openDower);
   return (
     <div>
       <Drawer open={openDower} onClose={() => setOpenDower(false)}>
