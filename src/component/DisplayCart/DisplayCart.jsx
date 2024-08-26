@@ -33,8 +33,8 @@ function DisplayCart() {
                 <p> {item.title} </p>
               </div>
               <Link to={`/edit/` + item.id} style={{ color: "black" }}>
-                <div>
-                  <EditIcon />
+                <div style={{display:'flex',justifyContent:'center'}} >
+                  <EditIcon/>
                 </div>
               </Link>
               <div className="cart-price">
