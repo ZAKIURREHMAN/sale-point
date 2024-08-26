@@ -14,7 +14,7 @@ function Cart() {
               <th>ID Number</th>
               <th>Image</th>
               <th>Title</th>
-              <th>Price</th>
+              <th>Price in Dollar</th>
               <th>Quantity</th>
             </tr>
           </thead>
