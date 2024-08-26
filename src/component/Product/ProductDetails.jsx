@@ -45,7 +45,7 @@ function ProductDetails() {
     <div className="product-container">
       <div className="product-box">
         <div className="product-image">
-          <img src={item[0].image} alt="" />
+          <img src={item[0].image} alt={item[0].title} />
         </div>
         <div className="product-text">
           <br />

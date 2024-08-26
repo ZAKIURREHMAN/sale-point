@@ -27,7 +27,7 @@ function DisplayCart() {
               style={{ color: "black", textDecoration: "none" }}
             >
               <div className="cart-img ">
-                {item.image ? <img src={item.image} alt="" /> : <h5>W8</h5>}
+                {item.image ? <img src={item.image} alt={item.title} /> : <h5>W8</h5>}
               </div>
               <div className="cart-title">
                 <p> {item.title} </p>
