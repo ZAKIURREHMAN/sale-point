@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { counterContext } from "../../context/AuthContext";
-import { useContext, useState, useCallback } from "react";
+import { useContext } from "react";
 import "./ProductDetails.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +27,10 @@ function ProductDetails() {
         theme: "dark",
       });
     } else {
-      setCartItems((pre) => [...pre, ...item, ...quantityNumber]);
+      setCartItems((pre) => [
+        ...pre,
+        ...item.map((i) => ({ ...i, quantityNumber })),
+      ]);
       toast.success("Add to Cart Successfully", {
         position: "top-right",
         autoClose: 4000,
@@ -39,7 +42,7 @@ function ProductDetails() {
         theme: "dark",
       });
     }
-    setQuantityNumber(0)
+    setQuantityNumber(0);
   };
 
   return (

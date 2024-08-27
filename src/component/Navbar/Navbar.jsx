@@ -26,6 +26,7 @@ function Navbar() {
   };
   const them = useTheme();
   const isMatch = useMediaQuery(them.breakpoints.down("md"));
+  
   return (
     <div>
       <AppBar sx={{ backgroundColor: "#102C57", position: "static" }}>
@@ -38,7 +39,7 @@ function Navbar() {
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <Box sx={{ height: "50px", width: "50px", cursor: "pointer" }}>
                 <img
-                  src="./NavbarImages/salepoint.webp"
+                  src="./NavbarImages/sale-point.webp"
                   alt="Sale Point"
                   style={{ height: "100%", width: "100%" }}
                 />
@@ -51,7 +52,7 @@ function Navbar() {
                 }}
               >
                 <img
-                  src="./NavbarImages/userlogo.jpeg"
+                  src="./NavbarImages/user-logo.jpeg"
                   alt="user Profile"
                   style={{
                     height: "35px",
@@ -67,7 +68,7 @@ function Navbar() {
             <>
               <Box sx={{ height: "50px", width: "50px", cursor: "pointer" }}>
                 <img
-                  src="./NavbarImages/salepoint.webp"
+                  src="./NavbarImages/sale-point.webp"
                   alt="Sale Point"
                   style={{ height: "100%", width: "100%" }}
                 />
@@ -105,7 +106,7 @@ function Navbar() {
                 }}
               >
                 <img
-                  src="./NavbarImages/userlogo.jpeg"
+                  src="./NavbarImages/user-logo.jpeg"
                   alt="user Profile"
                   style={{
                     height: "35px",
@@ -120,7 +121,7 @@ function Navbar() {
                   <ShoppingCartIcon />
                 </Link>
                 <span style={{ marginTop: "-30px", marginLeft: "-10px" }}>
-                  {cartItems.length / 2}
+                  {cartItems.length}
                 </span>
               </Box>
             </>

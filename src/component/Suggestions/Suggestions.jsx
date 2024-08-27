@@ -3,7 +3,7 @@ import { counterContext } from "../../context/AuthContext";
 import "./Suggestions.css";
 function Suggestions({ searching }) {
   const { data, setHandelItem, handelSuggestions } = useContext(counterContext);
-  const [displayitem, setDisplayItem] = useState([]);
+  const [displayItem, setDisplayItem] = useState([]);
 
   useEffect(() => {
     const item = data.filter((i) =>
@@ -11,7 +11,7 @@ function Suggestions({ searching }) {
     );
     setDisplayItem(item);
     setHandelItem(item);
-  }, [searching]);
+  },[searching]);
 
   return (
     <div className="suggestions-container">
@@ -19,7 +19,7 @@ function Suggestions({ searching }) {
         className={`${handelSuggestions ? "suggestion-box" : "showing"}`}
         id="first"
       >
-        {displayitem.map((item) => (
+        {displayItem.map((item) => (
           <div key={item.id}>
             <div className="single-item">
               <p>{item.title}</p>

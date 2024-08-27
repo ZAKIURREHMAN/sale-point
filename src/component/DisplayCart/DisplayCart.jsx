@@ -11,6 +11,7 @@ function DisplayCart() {
     const afterDeleteItem = data.filter((item) => item.id !== id);
     setData(afterDeleteItem);
   };
+
   return (
     <div className="display-main-container">
       <div className="display-container">
@@ -27,14 +28,18 @@ function DisplayCart() {
               style={{ color: "black", textDecoration: "none" }}
             >
               <div className="cart-img ">
-                {item.image ? <img src={item.image} alt={item.title} /> : <h5>W8</h5>}
+                {item.image ? (
+                  <img src={item.image} alt={item.title} />
+                ) : (
+                  <h5>W8</h5>
+                )}
               </div>
               <div className="cart-title">
                 <p> {item.title} </p>
               </div>
               <Link to={`/edit/` + item.id} style={{ color: "black" }}>
-                <div style={{display:'flex',justifyContent:'center'}} >
-                  <EditIcon/>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <EditIcon />
                 </div>
               </Link>
               <div className="cart-price">

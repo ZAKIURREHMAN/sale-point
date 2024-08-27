@@ -1,5 +1,4 @@
-import { createContext, useState } from "react";
-import FetchData from "../component/FetchData/FetchData";
+import { createContext, useState, useEffect } from "react";
 
 export const counterContext = createContext();
 
@@ -10,6 +9,22 @@ export const ContextProvider = ({ children }) => {
   const [handelItem, setHandelItem] = useState([]);
   const [quantityNumber, setQuantityNumber] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        let response = await fetch(import.meta.env.VITE_DATA_URL);
+        if (!response.ok) {
+          throw new Error("Response are not correct");
+        }
+        let result = await response.json();
+        setData(result);
+      } catch (err) {
+        console.log("Error", err);
+      }
+    };
+    getData();
+  }, []);
 
   return (
     <counterContext.Provider
@@ -29,7 +44,6 @@ export const ContextProvider = ({ children }) => {
       }}
     >
       {children}
-      <FetchData setData={setData} data={data} />
     </counterContext.Provider>
   );
 };

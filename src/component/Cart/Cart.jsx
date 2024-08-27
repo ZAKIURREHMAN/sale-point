@@ -27,9 +27,7 @@ function Cart() {
                 </td>
                 <td>{item.title}</td>
                 <td>{item.price}</td>
-                <td style={{ border: "2px solid green " }}>
-                  {item[0] || "N/A"}
-                </td>
+                <td>{item.quantityNumber}</td>
               </tr>
             ))}
           </tbody>
