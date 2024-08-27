@@ -42,7 +42,7 @@ function ProductDetails() {
         theme: "dark",
       });
     }
-    setQuantityNumber(0);
+    setQuantityNumber(1);
   };
 
   return (
@@ -73,7 +73,7 @@ function ProductDetails() {
           <div className="product-quantity">
             <span>Quantity</span>{" "}
             <span>
-              <input type="number" max="9" min="0" onChange={getChangeData} />
+              <input type="number"  max="9" value={quantityNumber} min="0" onChange={getChangeData} />
             </span>
           </div>
           <div className="add-to-cart-button">

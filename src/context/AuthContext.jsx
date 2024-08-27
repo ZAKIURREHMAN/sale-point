@@ -7,8 +7,9 @@ export const ContextProvider = ({ children }) => {
   const [handelSuggestions, setHandelSuggestions] = useState(false);
   const [handelValue, setHandelValue] = useState();
   const [handelItem, setHandelItem] = useState([]);
-  const [quantityNumber, setQuantityNumber] = useState(0);
+  const [quantityNumber, setQuantityNumber] = useState(1);
   const [cartItems, setCartItems] = useState([]);
+  console.log(data)
 
   useEffect(() => {
     const getData = async () => {
@@ -19,8 +20,8 @@ export const ContextProvider = ({ children }) => {
         }
         let result = await response.json();
         setData(result);
-      } catch (err) {
-        console.log("Error", err);
+      } catch{
+        alert('we are facing some errors')
       }
     };
     getData();

@@ -1,7 +1,7 @@
 import "./Edit.css";
 import { useParams } from "react-router-dom";
 import { counterContext } from "../../context/AuthContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 function Edit() {
   const [img, setImg] = useState("");
   const { data, setData } = useContext(counterContext);
+  const [disablebutton, setdisablebutton] = useState(false);
   const { id } = useParams();
   const productItem = data.find((i) => i.id == id);
   const [formData, setFormData] = useState(productItem);
@@ -84,7 +85,7 @@ function Edit() {
           )
         );
       }
-    } catch (err) {
+    } catch {
       toast.error("We are facing some errors", {
         position: "top-right",
         autoClose: 5000,
@@ -97,12 +98,27 @@ function Edit() {
       });
     }
   };
+  useEffect(() => {
+    if (
+      formData.title == "" ||
+      formData.description == "" ||
+      formData.price == ""
+    ) {
+      setdisablebutton(true);
+    }
+  }, [formData]);
 
   return (
     <div className="edit-container">
       <div className="edit-box">
         <div className="form-container">
           <form className="product-form" onSubmit={submitData}>
+            <div
+              className="edit-data-heading"
+              style={{ textAlign: "center", marginTop: "-65px" }}
+            >
+              <h2>Edit</h2>
+            </div>
             <div className="edit-product-images">
               <label htmlFor="upload-file">
                 <img src={img.src || formData.image} alt={formData.title} />
@@ -122,13 +138,15 @@ function Edit() {
               value={formData.title}
               onChange={handleChange}
             />
-            {formData.title == "" ? (
-              <span style={{ color: "red" }}>
-                Enter Title in this input field
-              </span>
-            ) : (
-              ""
-            )}
+            <div className="title-show-error" style={{ marginBottom: "15px" }}>
+              {formData.title == "" ? (
+                <span style={{ color: "red" }}>
+                  Enter Title in this input field
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
             <textarea
               name="description"
               placeholder="Description"
@@ -136,13 +154,18 @@ function Edit() {
               value={formData.description}
               onChange={handleChange}
             ></textarea>
-            {formData.description == "" ? (
-              <span style={{ color: "red" }}>
-                Enter Description in this input field
-              </span>
-            ) : (
-              ""
-            )}
+            <div
+              className="description-show-error"
+              style={{ marginBottom: "15px" }}
+            >
+              {formData.description == "" ? (
+                <span style={{ color: "red" }}>
+                  Enter Description in this input field
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
             <input
               type="number"
               name="price"
@@ -151,15 +174,26 @@ function Edit() {
               value={formData.price}
               onChange={handleChange}
             />
-            {formData.price == "" ? (
-              <span style={{ color: "red" }}>
-                Enter Price in this input field
-              </span>
-            ) : (
-              ""
-            )}
+            <div className="price-show-error" style={{ marginBottom: "15px" }}>
+              {formData.price == "" ? (
+                <span style={{ color: "red" }}>
+                  Enter Price in this input field
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
 
-            <button type="submit" className="submit-button">
+            <button
+              type="submit"
+              className="submit-button"
+              style={
+                disablebutton
+                  ? { background: "#95D2B3" }
+                  : { background: "green" }
+              }
+              disabled={disablebutton}
+            >
               Submit
             </button>
             <ToastContainer />
