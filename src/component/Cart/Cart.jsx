@@ -14,7 +14,7 @@ function Cart() {
               <th>ID Number</th>
               <th>Image</th>
               <th>Title</th>
-              <th>Price in Dollar</th>
+              <th>Price</th>
               <th>Quantity</th>
             </tr>
           </thead>
@@ -26,7 +26,7 @@ function Cart() {
                   <img src={item.image} alt={item.title} width="50" />
                 </td>
                 <td>{item.title}</td>
-                <td>{item.price}</td>
+                <td>$ {item.price}</td>
                 <td>{item.quantityNumber}</td>
               </tr>
             ))}
