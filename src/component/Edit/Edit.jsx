@@ -2,21 +2,48 @@ import "./Edit.css";
 import { useParams } from "react-router-dom";
 import { counterContext } from "../../context/AuthContext";
 import { useContext, useState, useEffect } from "react";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { updateData } from "../Services/ApiServices";
+import InputFieldWithError from "../Common/InputFieldWithError";
 
 function Edit() {
   const [img, setImg] = useState("");
   const { data, setData } = useContext(counterContext);
-  const [disablebutton, setdisablebutton] = useState(false);
+  const [disablebutton, setdisablebutton] = useState(true);
   const { id } = useParams();
   const productItem = data.find((i) => i.id == id);
   const [formData, setFormData] = useState(productItem);
+  const [title, setTitle] = useState(false);
+  const [description, setDescription] = useState(false);
+  const [price, setPrice] = useState(false);
+  const toastConfig = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    switch (name) {
+      case "title":
+        setTitle(true);
+        break;
+      case "description":
+        setDescription(true);
+        break;
+      case "price":
+        setPrice(true);
+        break;
+      default:
+        break;
+    }
   };
   const handleImages = (e) => {
     const file = e.target.files[0];
@@ -49,36 +76,12 @@ function Edit() {
   const submitData = async (e) => {
     e.preventDefault();
     try {
-      if (
-        formData.title == "" ||
-        formData.description == "" ||
-        formData.price == ""
-      ) {
-        toast.error("Data is not Update", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+      const { title, description, price } = formData;
+      if (title === "" || description === "" || price === "") {
+        toast.error("Please fill all required fields", toastConfig);
       } else {
-        const response = await axios.put(
-          `https://fakestoreapi.com/products/${id}`,
-          formData
-        );
-        toast.success("Data Updated Successfully", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        const response = await updateData(id, formData);
+        toast.success("Data Updated Successfully", toastConfig);
         setData((prevData) =>
           prevData.map((item) =>
             item.id === parseInt(id) ? response.data : item
@@ -86,25 +89,15 @@ function Edit() {
         );
       }
     } catch {
-      toast.error("We are facing some errors", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("We are facing some errors", toastConfig);
     }
   };
   useEffect(() => {
-    if (
-      formData.title == "" ||
-      formData.description == "" ||
-      formData.price == ""
-    ) {
+    const { title, description, price } = formData;
+    if (title === "" || description === "" || price === "") {
       setdisablebutton(true);
+    } else {
+      setdisablebutton(false);
     }
   }, [formData]);
 
@@ -130,68 +123,43 @@ function Edit() {
                 onChange={handleImages}
               />
             </div>
-            <input
+            <InputFieldWithError
               type="text"
               name="title"
-              placeholder="Title"
+              placeholder="Enter title"
               className="input-field"
               value={formData.title}
               onChange={handleChange}
+              displayError={title}
+              errorMessage="Enter title in this input field"
             />
-            <div className="title-show-error" style={{ marginBottom: "15px" }}>
-              {formData.title == "" ? (
-                <span style={{ color: "red" }}>
-                  Enter Title in this input field
-                </span>
-              ) : (
-                ""
-              )}
-            </div>
-            <textarea
+
+            <InputFieldWithError
+              type="text"
               name="description"
-              placeholder="Description"
-              className="textarea-field"
+              placeholder="Enter description"
+              className="input-field"
               value={formData.description}
               onChange={handleChange}
-            ></textarea>
-            <div
-              className="description-show-error"
-              style={{ marginBottom: "15px" }}
-            >
-              {formData.description == "" ? (
-                <span style={{ color: "red" }}>
-                  Enter Description in this input field
-                </span>
-              ) : (
-                ""
-              )}
-            </div>
-            <input
+              displayError={description}
+              errorMessage="Enter description in this input field"
+            />
+
+            <InputFieldWithError
               type="number"
               name="price"
-              placeholder="Price"
+              placeholder="Enter price"
               className="input-field"
               value={formData.price}
               onChange={handleChange}
+              displayError={price}
+              errorMessage="Enter price in this input field"
             />
-            <div className="price-show-error" style={{ marginBottom: "15px" }}>
-              {formData.price == "" ? (
-                <span style={{ color: "red" }}>
-                  Enter Price in this input field
-                </span>
-              ) : (
-                ""
-              )}
-            </div>
 
             <button
               type="submit"
               className="submit-button"
-              style={
-                disablebutton
-                  ? { background: "#95D2B3" }
-                  : { background: "green" }
-              }
+              style={{ background: disablebutton ? "#95D2B3" : "green" }}
               disabled={disablebutton}
             >
               Submit

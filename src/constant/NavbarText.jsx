@@ -7,7 +7,7 @@ const NavbarTest = [
     {
         id:2,
         name:'Upload Image',
-        path:'/upload'
+        path:'/add-product'
     },
 ]
 

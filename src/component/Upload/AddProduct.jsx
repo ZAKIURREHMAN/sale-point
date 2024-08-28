@@ -3,7 +3,8 @@ import "./UploadPic.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { counterContext } from "../../context/AuthContext";
-import axios from "axios";
+import { addProduct } from "../Services/ApiServices";
+import InputFieldWithError from "../Common/InputFieldWithError";
 
 function AddProduct() {
   const { setData } = useContext(counterContext);
@@ -24,6 +25,16 @@ function AddProduct() {
   const [price, setPrice] = useState(false);
   const [rating, setRating] = useState(false);
   const [title, setTitle] = useState(false);
+  const toastConfig = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  };
 
   const handelNewUploadImg = (e) => {
     const file = e.target.files[0];
@@ -87,13 +98,9 @@ function AddProduct() {
     }
   };
   useEffect(() => {
-    if (
-      uploadData.title !== "" &&
-      uploadData.category !== "" &&
-      uploadData.description !== "" &&
-      uploadData.price !== "" &&
-      uploadData.rating !== ""
-    ) {
+    const { title, category, description, price, rating } = uploadData;
+
+    if (title && category && description && price && rating) {
       setdisablebutton(false);
     }
   }, [uploadData]);
@@ -101,52 +108,18 @@ function AddProduct() {
   const submitUploadData = async (e) => {
     e.preventDefault();
     try {
-      if (
-        uploadData.title !== "" &&
-        uploadData.category !== "" &&
-        uploadData.description !== "" &&
-        uploadData.price !== "" &&
-        uploadData.rating !== ""
-      ) {
-        let response = await axios.post(
-          "https://fakestoreapi.com/products",
-          uploadData
-        );
+      const { title, category, description, price, rating } = uploadData;
+
+      if (title && category && description && price && rating) {
+        let response = await addProduct(uploadData);
         let result = response.data;
         setData((pre) => [...pre, result]);
-        toast.success("Image upload Successfully", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success("Image upload Successfully", toastConfig);
       } else {
-        toast.error("Please Fill this All Input fields", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("Please Fill this All Input fields", toastConfig);
       }
     } catch {
-      toast.error("We are facing Networking Errors", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("We are facing Networking Errors", toastConfig);
     }
   };
   return (
@@ -173,116 +146,76 @@ function AddProduct() {
               onChange={handelNewUploadImg}
             />
           </div>
-          <input
+
+          <InputFieldWithError
             type="id"
             name="id"
-            placeholder="id"
+            placeholder="Enter id"
             className="input-field"
             value={uploadData.id}
             onChange={newUploadData}
+            displayError={id}
+            errorMessage="Enter id in this input field"
           />
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {id === true && uploadData.id == "" ? (
-              <span style={{ color: "red" }}>You are ID must be unique</span>
-            ) : (
-              ""
-            )}
-          </div>
-          <input
+          <InputFieldWithError
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder="Enter title"
             className="input-field"
             value={uploadData.title}
             onChange={newUploadData}
+            displayError={title}
+            errorMessage="Enter Title in this input field"
           />
 
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {title === true && uploadData.title == "" ? (
-              <span style={{ color: "red" }}>
-                Enter Title in this input field
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-
-          <input
+          <InputFieldWithError
             type="text"
             name="category"
-            placeholder="category"
+            placeholder="Enter category"
             className="input-field"
             value={uploadData.category}
             onChange={newUploadData}
+            displayError={category}
+            errorMessage="Enter category in this input field"
           />
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {category === true && uploadData.category == "" ? (
-              <span style={{ color: "red" }}>
-                Enter category in this input field
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-          <textarea
+
+          <InputFieldWithError
+            type="text"
             name="description"
-            placeholder="Description"
-            className="textarea-field"
+            placeholder="Enter description"
+            className="input-field"
             value={uploadData.description}
             onChange={newUploadData}
-          ></textarea>
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {description === true && uploadData.description == "" ? (
-              <span style={{ color: "red" }}>
-                Enter description in this input field
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-          <input
+            displayError={description}
+            errorMessage="Enter description in this input field"
+          />
+
+          <InputFieldWithError
             type="number"
             name="price"
-            placeholder="Price"
+            placeholder="Enter price"
             className="input-field"
             value={uploadData.price}
             onChange={newUploadData}
+            displayError={price}
+            errorMessage="Enter price in this input field"
           />
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {price === true && uploadData.price == "" ? (
-              <span style={{ color: "red" }}>
-                Enter number in this input field
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
-          <input
+
+          <InputFieldWithError
             type="number"
             name="rating"
-            placeholder="rating"
+            placeholder="Enter rating"
             className="input-field"
             value={uploadData.rating}
             onChange={newUploadData}
+            displayError={rating}
+            errorMessage="Enter rating in this input field"
           />
-          <div className="show-error" style={{ marginBottom: "15px" }}>
-            {rating === true && uploadData.rating == "" ? (
-              <span style={{ color: "red" }}>
-                Enter rating in this input field
-              </span>
-            ) : (
-              ""
-            )}
-          </div>
 
           <button
             type="submit"
             className="submit-button"
-            style={
-              disablebutton
-                ? { background: "#95D2B3" }
-                : { background: "green" }
-            }
+            style={{ background: disablebutton ? "#95D2B3" : "green" }}
             disabled={disablebutton}
           >
             Submit
